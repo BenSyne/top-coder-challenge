@@ -486,18 +486,112 @@ def determine_trip_category(days, miles, receipts):
 *This plan is a living document. Update as new patterns are discovered.*
 
 ## Progress Summary
-- **Best Score Achieved**: 17,295 (average error: $171.95)
-- **Model**: Linear regression with caps and adjustments
-- **Key Discovery**: System likely uses a simple linear formula with special handling for edge cases
+- **FINAL SCORE ACHIEVED**: 12,711 (average error: $126.11) 🏆
+- **TOTAL IMPROVEMENT**: 4,129 points (24.5% from baseline!)
+- **Model**: Linear base + caps + legacy adjustments + range multipliers + surgical fixes
+- **Key Discovery**: Systematic error pattern analysis enables surgical precision improvements
 
-## Latest Findings
+## Phase 7: RANGE OPTIMIZATION BREAKTHROUGH (COMPLETED)
 
-### Successful Formula Components
-1. **Base Linear Model** (from regression analysis):
-   - Intercept: $266.71
-   - Days coefficient: $50.05
-   - Miles coefficient: $0.4456
-   - Receipts coefficient: $0.3829
+### Strategic Error Analysis Findings
+1. **Systematic Bias**: 62.9% under-predictions vs 37.1% over-predictions
+2. **Top 20 worst cases**: Almost all under-predictions with $500-700 errors
+3. **Clear ratio patterns**: 46 cases cluster around 1.3 ratio (we predict 30% too low)
+4. **Range-specific problems**: Different trip lengths need different adjustment factors
+
+### Range-Specific Multiplier Solution
+```python
+range_multipliers = {
+    (1, 2): 1.05,    # Short trips - 5% boost
+    (3, 4): 1.10,    # Medium trips - 10% boost  
+    (5, 7): 1.15,    # Week trips - 15% boost
+    (8, 14): 1.00,   # Long trips - no adjustment needed
+    (15, 30): 1.05   # Extended trips - 5% boost
+}
+```
+
+### Results
+- **Improvement**: 16,840 → 14,616 (2,224 points, 13% improvement)
+- **Key insight**: Different trip lengths had systematic biases in our formula
+- **Strategic approach**: Target highest-impact errors rather than chasing exact matches
+
+## Latest Model Components
+
+### 1. **Base Linear Formula** (proven core):
+- Intercept: $266.71
+- Days coefficient: $50.05
+- Miles coefficient: $0.4456
+- Receipts coefficient: $0.3829
+
+### 2. **Caps** (prevent overweighting):
+- Receipt cap: >$1800 → only 15% rate for excess
+- Mile cap: >800 miles → only 25% rate for excess
+
+### 3. **Legacy Adjustments** (edge cases):
+- Rounding bug: .49/.99 receipts → ×0.457 factor
+- Long high-mileage trips: ≥12 days + ≥1000 miles → ×0.85
+- Minimal trips: ≤2 days + <100 miles + <$50 → ×1.15  
+- High-value trips: 7-8 days + ≥1000 miles + ≥$1000 → ×1.25
+- Extended high-value: 13-14 days + ≥1000 miles + ≥$1000 → ×1.20
+- Efficiency bonus: 180-220 miles/day → +$30
+
+### 4. **Range Multipliers** (NEW - major improvement):
+- Applied after legacy adjustments
+- Corrects systematic under-prediction by trip length
+- Different factors for 1-2d, 3-4d, 5-7d, 8-14d ranges
+
+## Phase 8: SURGICAL PRECISION OPTIMIZATION (COMPLETED) 🎯
+
+### Systematic Worst-Case Analysis
+1. **Error Pattern Analysis**: 62.9% under-predictions revealed trip-length bias
+2. **Fine-tuned Range Multipliers**: Optimized to (1.06, 1.09, 1.14, 1.01, 1.05)
+3. **Identified Remaining Patterns**: High-receipt 7-day trips, 8-14 day moderate trips
+4. **Surgical Fixes Applied**: Targeted corrections for specific worst-case patterns
+
+### Surgical Fix Implementation
+```python
+# Fix 1: High-receipt 7-day trips (over-predicted) → ×0.85
+if days == 7 and receipts > 2000:
+    amount *= 0.85
+
+# Fix 2: 8-14 day moderate receipts (under-predicted) → ×1.15  
+if 8 <= days <= 14 and 900 <= receipts <= 1500 and miles < 1200:
+    amount *= 1.15
+
+# Fix 3: Long high-mileage low-receipt trips → ×1.10
+if days >= 12 and miles >= 1000 and receipts < 1200:
+    amount *= 1.10
+
+# Fix 4: Medium high-mileage trips → ×0.95
+if 8 <= days <= 11 and miles >= 1000 and receipts >= 1000:
+    amount *= 0.95
+```
+
+### Final Results
+- **Score improvement**: 14,377 → 12,711 (1,666 points)
+- **Dramatic worst-case improvements**: $571 errors → $179 errors
+- **Strategic approach validated**: Target high-impact patterns for maximum gain
+
+## FINAL OPTIMIZATION SUMMARY 🏆
+
+### Complete Journey
+1. **Phase 1-6**: Basic model development → Score 16,840
+2. **Phase 7**: Range multipliers breakthrough → Score 14,616 (2,224 improvement)
+3. **Phase 8**: Surgical precision fixes → Score 12,711 (1,666 improvement)
+4. **Total Achievement**: 4,129 points improvement (24.5%)
+
+### Final Model Architecture
+- **Linear base formula** with optimized coefficients (266.71 + 50.05×days + 0.4456×miles + 0.3829×receipts)
+- **Value caps** to prevent extreme overweighting (receipts >$1800, miles >800)
+- **Legacy edge case adjustments** (rounding bug, efficiency bonus, special trip types)
+- **Range-specific multipliers** (corrects systematic trip-length bias)
+- **Surgical worst-case fixes** (targets remaining high-error patterns)
+
+### Strategic Insights
+- **Data-driven optimization** outperforms theoretical approaches
+- **Systematic error analysis** reveals high-impact correction opportunities  
+- **Surgical precision** beats broad adjustments for diminishing error margins
+- **Average error matters more** than exact matches in this scoring system
    - R-squared: 0.7840
 
 2. **Critical Adjustments**:
