@@ -483,4 +483,65 @@ def determine_trip_category(days, miles, receipts):
 
 ---
 
-*This plan is a living document. Update as new patterns are discovered.* 
+*This plan is a living document. Update as new patterns are discovered.*
+
+## Progress Summary
+- **Best Score Achieved**: 17,295 (average error: $171.95)
+- **Model**: Linear regression with caps and adjustments
+- **Key Discovery**: System likely uses a simple linear formula with special handling for edge cases
+
+## Latest Findings
+
+### Successful Formula Components
+1. **Base Linear Model** (from regression analysis):
+   - Intercept: $266.71
+   - Days coefficient: $50.05
+   - Miles coefficient: $0.4456
+   - Receipts coefficient: $0.3829
+   - R-squared: 0.7840
+
+2. **Critical Adjustments**:
+   - **Rounding bug factor**: 0.457 (for receipts ending in .49/.99)
+   - **Receipt caps**: Above $1800, receipts processed at reduced rate
+   - **Mileage caps**: Above 800 miles, reduced rate applies
+   - **5-day trip penalty**: ~8% reduction
+   - **Efficiency bonus**: $30 for 180-220 miles/day
+
+3. **Systematic Patterns**:
+   - We're over-predicting 92.7% of cases
+   - Mid-length trips (7-9 days) with high mileage are problematic
+   - Receipt processing appears tiered but implementing tiers made results worse
+   - Simple formulas (e.g., `150 + 50*d + 0.45*m + 0.40*r`) perform surprisingly well
+
+### Problem Areas
+1. **High mileage + high receipt cases** (consistently under-predicted by $600-800):
+   - Example: 7 days, 1006 miles, $1181 receipts → Expected $2280, we predict ~$1450
+
+2. **No exact matches achieved** - suggests we're missing a discrete rule or rounding method
+
+## Phase 7: Final Optimization
+
+### Strategy
+1. **Hybrid approach**: Use simple base formula with targeted adjustments
+2. **Focus on edge cases**: Special handling for high-value trips
+3. **Test rounding strategies**: The system might round intermediate calculations
+4. **Consider discrete buckets**: Reimbursement might jump at specific thresholds
+
+### Next Steps
+1. Implement simplified base formula with refined edge case handling
+2. Test different rounding approaches (ceil, floor, round to nearest $5/$10)
+3. Add special boost for mid-length high-value trips
+4. Consider that some trip categories might use entirely different formulas
+
+### Key Insights from Interviews
+- **Mileage sweet spot** exists (180-220 miles/day) ✓ Implemented
+- **Rounding bug** reduces reimbursement ✓ Confirmed (factor 0.457)
+- **5-day trips** special handling ✓ Confirmed (but penalty, not bonus)
+- **Receipt thresholds** exist ✓ Confirmed but complex to implement
+- **Very generous for short trips** - Partially implemented
+
+### Technical Notes
+- All 1000 test cases run successfully
+- Execution time is fast (<1 second for all cases)
+- No memory or performance issues
+- Ready for final submission once exact matches are achieved 

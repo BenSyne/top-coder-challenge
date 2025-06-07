@@ -1,90 +1,50 @@
-# Top Coder Challenge: Black Box Legacy Reimbursement System
+# Black Box Reimbursement Challenge Solution
 
-**Reverse-engineer a 60-year-old travel reimbursement system using only historical data and employee interviews.**
+This repository contains my solution to the Black Box Legacy Reimbursement System challenge.
 
-ACME Corp's legacy reimbursement system has been running for 60 years. No one knows how it works, but it's still used daily.
+## Challenge Overview
+Reverse-engineer a 60-year-old travel reimbursement system using 1,000 historical input/output examples and employee interviews.
 
-8090 has built them a new system, but ACME Corp is confused by the differences in results. Your mission is to figure out the original business logic so we can explain why ours is different and better.
+## Solution Score
+**🎯 Final Score: 16,840** (Average Error: $167.40)
 
-Your job: create a perfect replica of the legacy system by reverse-engineering its behavior from 1,000 historical input/output examples and employee interviews.
-
-## What You Have
-
-### Input Parameters
-
-The system takes three inputs:
-
-- `trip_duration_days` - Number of days spent traveling (integer)
-- `miles_traveled` - Total miles traveled (integer)
-- `total_receipts_amount` - Total dollar amount of receipts (float)
-
-## Documentation
-
-- A PRD (Product Requirements Document)
-- Employee interviews with system hints
-
-### Output
-
-- Single numeric reimbursement amount (float, rounded to 2 decimal places)
-
-### Historical Data
-
-- `public_cases.json` - 1,000 historical input/output examples
-
-## Getting Started
-
-1. **Analyze the data**: 
-   - Look at `public_cases.json` to understand patterns
-   - Look at `PRD.md` to understand the business problem
-   - Look at `INTERVIEWS.md` to understand the business logic
-2. **Create your implementation**:
-   - Copy `run.sh.template` to `run.sh`
-   - Implement your calculation logic
-   - Make sure it outputs just the reimbursement amount
-3. **Test your solution**: 
-   - Run `./eval.sh` to see how you're doing
-   - Use the feedback to improve your algorithm
-4. **Submit**:
-   - Run `./generate_results.sh` to get your final results.
-   - Add `arjun-krishna1` to your repo.
-   - Complete [the submission form](https://forms.gle/sKFBV2sFo2ADMcRt8).
-
-## Implementation Requirements
-
-Your `run.sh` script must:
-
-- Take exactly 3 parameters: `trip_duration_days`, `miles_traveled`, `total_receipts_amount`
-- Output a single number (the reimbursement amount)
-- Run in under 5 seconds per test case
-- Work without external dependencies (no network calls, databases, etc.)
-
-Example:
-
+## Quick Start
 ```bash
-./run.sh 5 250 150.75
-# Should output something like: 487.25
+# Run evaluation
+./eval.sh
+
+# Calculate single reimbursement
+python calculate_reimbursement.py <days> <miles> <receipts>
+
+# Example
+python calculate_reimbursement.py 5 300 500.00
 ```
 
-## Evaluation
+## Repository Structure
+```
+├── calculate_reimbursement.py  # Main calculator implementation
+├── run.sh                      # Shell wrapper for calculator
+├── analyze_data.py            # Initial data analysis
+├── deeper_analysis.py         # Linear regression analysis
+├── error_analysis.py          # Error pattern analysis
+├── PROJECT_PLAN.md            # Detailed project plan and findings
+├── FINAL_SUMMARY.md           # Final solution summary
+└── public_cases.json          # Test data (1000 cases)
+```
 
-Run `./eval.sh` to test your solution against all 1,000 cases. The script will show:
+## Key Findings
+- Base formula: `266.71 + 50.05×days + 0.4456×miles + 0.3829×receipts`
+- Rounding bug factor: 0.457 (for receipts ending in .49/.99)
+- Various adjustments for trip categories and edge cases
+- See FINAL_SUMMARY.md for complete details
 
-- **Exact matches**: Cases within ±$0.01 of the expected output
-- **Close matches**: Cases within ±$1.00 of the expected output
-- **Average error**: Mean absolute difference from expected outputs
-- **Score**: Lower is better (combines accuracy and precision)
+## Dependencies
+- Python 3.x
+- pandas, numpy, matplotlib, scikit-learn (for analysis scripts)
+- No dependencies for the main calculator
 
-Your submission will be tested against `private_cases.json` which does not include the outputs.
+## Author
+Ben Syne
 
-## Submission
-
-When you're ready to submit:
-
-1. Push your solution to a GitHub repository
-2. Add `arjun-krishna1` to your repository
-3. Submit via the [submission form](https://forms.gle/sKFBV2sFo2ADMcRt8).
-4. When you submit the form you will submit your `private_results.txt` which will be used for your final score.
-
----
-
-**Good luck and Bon Voyage!**
+## Date
+December 2024
