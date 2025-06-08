@@ -81,14 +81,14 @@ The Ultimate ML Calculator uses a sophisticated 5-phase training process:
 - Specialized models for problematic cent values
 - Handles .31, .85, .02, .29, .41 endings
 
-### 2. **Feature Engineering (156 Features)**
-- **Basic Features**: Trip days, miles, receipts
-- **Polynomial Features**: Cross-products and powers
-- **Categorical Features**: Trip length buckets, receipt ranges
-- **Mathematical Features**: Logarithms, square roots
-- **Pattern Features**: Decimal analysis, modulo operations
-- **Efficiency Features**: Miles per day, receipts per day
-- **Trigonometric Features**: Sine/cosine of cyclical patterns
+### 2. **Feature Engineering (147 Features)**
+- **Basic Features (7)**: Trip days, miles, receipts + ratios
+- **Mathematical Transformations (29)**: Polynomials up to 4th degree, logarithms, square roots, cross-products
+- **Categorical Encoding (71)**: Trip length buckets, mile ranges, receipt ranges
+- **Pattern Recognition (17)**: Decimal analysis, modulo operations, business rule patterns
+- **Special Patterns (15)**: Problematic combinations, complex interactions
+- **Trigonometric Features (6)**: Sine/cosine of cyclical patterns
+- **Complex Interactions (2)**: High-order feature combinations
 
 ### 3. **Self-Healing System**
 - Automatically detects missing/incompatible model cache
@@ -205,7 +205,7 @@ Each iteration maintained full backward compatibility while dramatically improvi
 2. **Decimal-Specific Models**: Handles problematic cent endings
 3. **Self-Healing Architecture**: Automatically rebuilds when needed
 4. **Multi-Phase Training**: Systematic approach to minimize error
-5. **Rich Feature Engineering**: 156 carefully crafted features
+5. **Rich Feature Engineering**: 147 carefully crafted features
 6. **Production-Ready**: Fast inference, robust error handling
 
 ## 📚 Research Documentation
