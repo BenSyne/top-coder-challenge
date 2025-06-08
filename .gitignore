@@ -21,4 +21,6 @@ private_results.txt
 
 # OS files
 .DS_Store
-Thumbs.db 
+Thumbs.db # Model cache files (too large for GitHub)
+ultimate_ml_models_cache.pkl
+research documents/**/*.pkl
