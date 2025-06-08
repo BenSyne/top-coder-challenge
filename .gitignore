@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Generated files
+*.png
+*.csv
+private_results.txt
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db # Model cache files (too large for GitHub)
+ultimate_ml_models_cache.pkl
+research documents/**/*.pkl
